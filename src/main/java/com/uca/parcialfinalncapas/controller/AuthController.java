@@ -1,6 +1,5 @@
 package com.uca.parcialfinalncapas.controller;
 
-
 import com.uca.parcialfinalncapas.dto.request.AuthRequest;
 import com.uca.parcialfinalncapas.dto.response.AuthResponse;
 import com.uca.parcialfinalncapas.dto.response.ErrorResponse;
