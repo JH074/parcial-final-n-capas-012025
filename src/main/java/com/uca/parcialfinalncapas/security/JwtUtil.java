@@ -1,9 +1,12 @@
 package com.uca.parcialfinalncapas.security;
 
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
+import javax.crypto.SecretKey;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 @Component
@@ -15,34 +18,28 @@ public class JwtUtil {
     @Value("${jwt.expiration-ms}")
     private long expirationMs;
 
-    public String generateToken(UserDetails user) {
+    private SecretKey getSigningKey() {
+        byte[] keyBytes = secret.getBytes(StandardCharsets.UTF_8);
+        return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    public String generateToken(String username, String role) {
+        SecretKey key = getSigningKey();
         return Jwts.builder()
-                .setSubject(user.getUsername())
-                .claim("authorities", user.getAuthorities())
+                .setSubject(username)
+                .claim("role", role)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expirationMs))
-                .signWith(SignatureAlgorithm.HS512, secret)
+                .signWith(key)
                 .compact();
     }
 
-    public String extractUsername(String token) {
-        return Jwts.parser()
-                .setSigningKey(secret)
+    public Claims validateAndGetClaims(String token) {
+        SecretKey key = getSigningKey();
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
                 .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
-    }
-
-    public boolean validateToken(String token, UserDetails user) {
-        try {
-            Claims claims = Jwts.parser()
-                    .setSigningKey(secret)
-                    .parseClaimsJws(token)
-                    .getBody();
-            return claims.getSubject().equals(user.getUsername())
-                    && claims.getExpiration().after(new Date());
-        } catch (JwtException | IllegalArgumentException e) {
-            return false;
-        }
+                .getBody();
     }
 }
