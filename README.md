@@ -31,9 +31,9 @@ _Si van a crear mas endpoints como el login o registrarse recuerden actualizar p
 ### Partes de desarrollo
 
 #### Parte 1: Implementar login con JWT
-- [ ] Crear endpoint `/auth/login`.
-- [ ] Validar usuario y contraseña (puede estar en memoria o en BD).
-- [ ] Retornar JWT firmado.
+- [x] Crear endpoint `/auth/login`.
+- [x] Validar usuario y contraseña (puede estar en memoria o en BD).
+- [x] Retornar JWT firmado.
 
 #### Parte 2: Configurar filtros y validación del token
 - [ ] Crear filtro para validar el token en cada solicitud.
