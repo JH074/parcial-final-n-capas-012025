@@ -36,9 +36,9 @@ _Si van a crear mas endpoints como el login o registrarse recuerden actualizar p
 - [x] Retornar JWT firmado.
 
 #### Parte 2: Configurar filtros y validación del token
-- [ ] Crear filtro para validar el token en cada solicitud.
-- [ ] Extraer usuario desde el JWT.
-- [ ] Añadir a contexto de seguridad de Spring.
+- [x] Crear filtro para validar el token en cada solicitud.
+- [x] Extraer usuario desde el JWT.
+- [x] Añadir a contexto de seguridad de Spring.
 
 #### Parte 3: Proteger endpoints con Spring Security
 - [ ] Permitir solo el acceso al login sin token.
